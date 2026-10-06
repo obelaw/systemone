@@ -1,0 +1,50 @@
+{
+    "name": "obelaw/systemone",
+    "description": "Core Decision Engine and typed decision primitives for the Obelaw AI ecosystem.",
+    "keywords": ["laravel", "obelaw", "systemone", "ai", "decision-engine", "primitives"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Karim Mohamed",
+            "email": "komicho1996@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "pestphp/pest": "^2.0|^3.0|^4.0",
+        "pestphp/pest-plugin-laravel": "^2.0|^3.0|^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Obelaw\\SystemOne\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Obelaw\\SystemOne\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Obelaw\\SystemOne\\SystemOneServiceProvider"
+            ],
+            "aliases": {
+                "SystemOne": "Obelaw\\SystemOne\\Facades\\SystemOne"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "test": "pest"
+    }
+}
