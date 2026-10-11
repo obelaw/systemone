@@ -1,48 +1,33 @@
+<p align="center"><img src="./cover.svg" alt="Obelaw SystemOne"/></p>
+
+<p align="center">
+  <a href="https://packagist.org/packages/obelaw/systemone" target="_blank"><img src="https://img.shields.io/static/v1?label=Packagist&message=obelaw/systemone&color=blue&logo=packagist&logoColor=white" alt="Source"></a>
+  <a href="https://packagist.org/packages/obelaw/systemone" target="_blank"><img src="https://poser.pugx.org/obelaw/systemone/v" alt="Packagist Version"></a>
+  <a href="https://packagist.org/packages/obelaw/systemone" target="_blank"><img src="https://poser.pugx.org/obelaw/systemone/license" alt="License"></a>
+</p>
+
 # Obelaw SystemOne
 
-[![Pest Tests](https://img.shields.io/badge/Pest-Passing-brightgreen)](https://pestphp.com)
-[![PHP](https://img.shields.io/badge/PHP-8.2+-blue)](https://php.net)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+A fast, deterministic AI Decision Engine for modern Laravel applications. SystemOne replaces open-ended conversational prompts with typed decision primitives evaluated at the edge against application states.
 
-**SystemOne** is the modular Core Decision Engine for the Obelaw AI ecosystem. It replaces open-ended conversational generation with typed decision primitives (`Noul`, `Choice`, `Score`) evaluated against arbitrary context states.
+## Features
 
-## Primitives
+- **Typed Decision Primitives**: Evaluate business states with formal mathematical primitives—`Noul` (binary Bernoulli likelihoods), `Choice` (categorical classification with rubrics), and `Score` (bounded numerical ratings & ordered rubrics).
+- **Calibrated Probabilities**: Access true probability distributions, confidence scores, and strict value types instead of unstructured conversational completions.
+- **Atomic Multi-Question Queries**: Query multiple decision primitives against the same state payload concurrently in a single network round-trip.
+- **Sub-100ms Edge Inference**: Ultra-low latency decision execution powered by edge drivers such as Cloudflare Workers AI (`obelaw/systemone-clef`).
+- **Zero Hallucination Surface**: Strictly typed outputs and bounded rubrics eliminate schema drift, markdown fencing issues, and JSON parsing errors.
+- **Driver-Agnostic Architecture**: Pluggable driver interface allowing custom adapters for edge models, local LLMs, or private inference endpoints.
+- **100% Deterministic Testing**: Fully mockable offline in Pest and PHPUnit with zero token costs and zero network latency.
 
-- **`Noul`**: Binary / Bernoulli likelihood questions:
-  ```php
-  Noul::make('Is this payment transaction fraudulent?')
-  ```
-- **`Choice`**: Categorical decisions with associative or list criteria:
-  ```php
-  Choice::make('Which department should handle this request?', [
-      'billing' => 'Invoices, refunds, and pricing',
-      'support' => 'Technical troubleshooting',
-      'sales' => 'Plan upgrades and enterprise licenses',
-  ])
-  ```
-- **`Score`**: Bounded numerical ratings or ordered rubric scales:
-  ```php
-  Score::rubric('Rate ticket urgency', ['Low', 'Medium', 'High', 'Critical'])
-  Score::range('Score satisfaction from 1 to 10', 1, 10)
-  ```
+## Documentation
 
-## Fluent API Builder
+You can find the detailed documentation here in [Documentation](https://obelaw.com/systemone/).
 
-```php
-use Obelaw\SystemOne\Facades\SystemOne;
-use Obelaw\SystemOne\Primitives\Noul;
-use Obelaw\SystemOne\Primitives\Choice;
+## Contributing
 
-$response = SystemOne::state('Customer account logged in from 3 distinct IP addresses in 5 minutes.')
-    ->ask('is_anomaly', Noul::make('Is this login pattern suspicious?'))
-    ->ask('action', Choice::make('Recommended security mitigation', [
-        'allow' => 'Allow login silently',
-        'challenge' => 'Send MFA push notification',
-        'block' => 'Block session immediately',
-    ]))
-    ->run();
+Thank you for considering contributing to this package! Be one of the Obelaw team.
 
-$isAnomaly = $response->value('is_anomaly'); // e.g. 0.96
-$action = $response->value('action');         // e.g. "challenge"
-$confidence = $response->confidence('action'); // e.g. 0.94
-```
+## License
+
+This package is an open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
